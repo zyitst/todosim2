@@ -1,6 +1,6 @@
 from flask import render_template, jsonify, request
 from flask.blueprints import Blueprint
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from todoism.models import Item
 from todoism.extensions import db
@@ -60,3 +60,12 @@ def toggle_item(item_id):
     db.session.commit()
     msg = '恭喜，已完成' if item.done else '恢复，未完成'
     return jsonify(message=msg)
+
+
+@todo_bp.route('/items/clear', methods=['DELETE'])
+@login_required
+def clear():
+    done_items = Item.query.with_parent(current_user).filter_by(done=True).all()
+    for item in done_items:
+        db.session.delete(item)
+    return jsonify(message='清空成功！')

@@ -270,6 +270,7 @@ $(document).ready(function () {
     $(document).on('click', '#clear-btn', function () {
         var $input = $('#item-input');
         var $items = $('.item');
+        var clear_item_url = $('#clear-btn').data('href');
 
         $input.focus();
         $.ajax({
