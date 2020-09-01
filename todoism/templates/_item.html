@@ -7,7 +7,7 @@
         <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}" id="body{{ item.id }}">
             {{ item.content }}
         </span>
-        <small class="create-time tooltipped" data-position="bottom" data-tooltip="看不到我"
+        <small class="create-time tooltipped" data-position="bottom"
                data-timestamp="{{ item.create_time.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
 {#            {{ moment(item.create_time).format('YYYY MMMM Do, h:mm:ss a') }}#}
             {{ moment(item.create_time).fromNow(refresh=True) }}

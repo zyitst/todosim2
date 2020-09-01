@@ -87,6 +87,10 @@ $(document).ready(function () {
         $('.sidenav').sidenav();
         $('ul.tabs').tabs();
         $('.modal').modal();
+        $('.tooltipped').each(function(){
+            $this = $(this);
+            $this.attr('data-tooltip', moment($(this).data('timestamp')).format('YYYYMMMMDo，ah：mm：ss'));
+        });
         $('.tooltipped').tooltip();
         $('.dropdown-trigger').dropdown({
                 constrainWidth: false,
@@ -217,7 +221,7 @@ $(document).ready(function () {
     $(document).on('click', '.done-btn', function () {
         var $input = $('#item-input');
 
-        $input.focus();
+        // $input.focus();
         var $item = $(this).parent().parent();
         var $this = $(this);
 
@@ -403,7 +407,11 @@ $(document).ready(function () {
     function render_time() {
         return moment($(this).data('timestamp')).format('lll');
     };
-    // $('.tooltipped').tooltip('open');
+
+
+    // $('.tooltipped').tooltip(
+    //     {html: 'lala'}
+    // );
 });
 
 
