@@ -22,7 +22,7 @@ class DevConfig(BaseConfig):
 
 
 class ProdConfig(BaseConfig):
-    pass
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'prod-data.db'))
 
 
 config = {
