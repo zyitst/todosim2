@@ -88,4 +88,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home.index', message='您已登出！'))
+    return jsonify(message='您已登出！')
