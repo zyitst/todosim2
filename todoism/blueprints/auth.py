@@ -3,7 +3,6 @@ from flask import render_template, jsonify, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from flask.blueprints import Blueprint
 
-from todoism import login_manager
 from todoism.models import User, Item
 from todoism.extensions import db
 
@@ -26,7 +25,13 @@ def register():
     item2 = Item(content='换台新的5G手机（华为 or 小米 or OV or 一加）', author=user)
     item3 = Item(content='找个好工作', author=user)
     item4 = Item(content='找个女朋友', author=user)
-    db.session.add_all([item, item2, item3, item4])
+    item5 = Item(content='注册功能完善（电子邮件，验证。。。）', author=user)
+    item6 = Item(content='优先级？？设置，修改。。。默认优先级', author=user)
+    item7 = Item(content='拖拽调整顺序。。', author=user)
+    item8 = Item(content='日历功能', author=user)
+    item9 = Item(content='倒垃圾', author=user)
+    item10 = Item(content='设定deadline并提醒', author=user)
+    db.session.add_all([item, item2, item3, item4, item5, item6, item7, item8, item9, item10])
 
     db.session.commit()
 

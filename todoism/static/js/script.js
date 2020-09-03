@@ -89,7 +89,7 @@ $(document).ready(function () {
         $('.modal').modal();
         $('.tooltipped').each(function(){
             $this = $(this);
-            $this.attr('data-tooltip', moment($(this).data('timestamp')).format('YYYYMMMMDo，ah：mm：ss'));
+            $this.attr('data-tooltip', '创建于 ' + moment($(this).data('timestamp')).format('YYYYMMMMDo，ah：mm：ss'));
         });
         $('.tooltipped').tooltip();
         $('.dropdown-trigger').dropdown({

@@ -116,3 +116,51 @@ footer {
 /*    display: inline-block;*/
 /*}*/
 
+.priority-1 {
+    color: #4dd95a;
+}
+
+.priority-2 {
+    color: #d9d52c;
+}
+
+.priority-3 {
+    color: #e9bc28;
+}
+
+.priority-4 {
+    color: #907fd9;
+}
+
+.priority-5 {
+    color: #d95965;
+}
+
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.label-normal {
+    background-color: #5cb85c;
+}
+
+.label-important {
+    background-color: #f0ad4e;
+}
+
+.label-emergency {
+    background-color: #d9534f;
+}
+
+.round {
+    border-radius: 1020px;
+}

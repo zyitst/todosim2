@@ -10,6 +10,7 @@ todo_bp = Blueprint('todo', __name__)
 
 
 @todo_bp.route('/app')
+@login_required
 def app():
     all_count = Item.query.with_parent(current_user).count()
     completed_count = Item.query.filter_by(done=True).count()
@@ -19,6 +20,7 @@ def app():
 
 
 @todo_bp.route('/items/new', methods=['POST'])
+@login_required
 def new_item():
     data = request.get_json()
     if data is None or data['body'] == '':
@@ -29,6 +31,7 @@ def new_item():
 
 
 @todo_bp.route('/item/<int:item_id>/edit', methods=['PUT'])
+@login_required
 def edit_item(item_id):
     item = Item.query.get_or_404(item_id)
     if item.author != current_user:
@@ -42,6 +45,7 @@ def edit_item(item_id):
 
 
 @todo_bp.route('/item/<int:item_id>/delete', methods=['DELETE'])
+@login_required
 def delete_item(item_id):
     item = Item.query.get_or_404(item_id)
     if item.author != current_user:
@@ -52,6 +56,7 @@ def delete_item(item_id):
 
 
 @todo_bp.route('/item/<int:item_id>/toggle', methods=['PATCH'])
+@login_required
 def toggle_item(item_id):
     item = Item.query.get_or_404(item_id)
     if item.author != current_user:

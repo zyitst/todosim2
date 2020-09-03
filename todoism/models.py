@@ -26,6 +26,7 @@ class Item(db.Model):
     id =db.Column(db.Integer, primary_key=True)
     content=db.Column(db.String(30))
     create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    priority = db.Column(db.Integer, default=1)
     done=db.Column(db.Boolean, default=False)
     done_time = db.Column(db.DateTime)
     author_id = db.Column(db.Integer, db.ForeignKey('user.uid'))

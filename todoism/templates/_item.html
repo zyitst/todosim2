@@ -7,6 +7,18 @@
         <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}" id="body{{ item.id }}">
             {{ item.content }}
         </span>
+        <span class="label {% if item.priority == 1 %}
+                                label-normal
+                           {% elif item.priority == 2 %}
+                                label-important
+                           {% else %}
+                                label-emergency
+                           {% endif %}
+                           round">
+            {% if item.priority == 1 %}普通{% endif %}
+            {% if item.priority == 2 %}重要{% endif %}
+            {% if item.priority == 3 %}紧急{% endif %}
+        </span>
         <small class="create-time tooltipped" data-position="bottom"
                data-timestamp="{{ item.create_time.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
 {#            {{ moment(item.create_time).format('YYYY MMMM Do, h:mm:ss a') }}#}
