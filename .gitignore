@@ -131,3 +131,6 @@ dmypy.json
 
 # code editor
 .idea/
+
+# dev database files
+.db
