@@ -2,16 +2,19 @@
 
 {% block content %}
     <header class="center">
-        <h4 class="red-text">Login on Todoism</h4><br>
+        <h4 class="red-text">Sign up Todoism</h4><br>
     </header>
     <div class="login-form">
         <input class="validate login-input" id="email-input" name="email" type="text" placeholder="Email"
                autofocus required>
+        <input class="validate login-input" id="username-input" name="username" type="text" placeholder="Username"
+               autofocus required>
         <input class="validate login-input" id="password-input" name="password" type="password" placeholder="Password"
                required>
+        <input class="validate login-input" id="password-input2" name="password2" type="password" placeholder="Confirm Password"
+               required>
         <span class="right">
-            <a class="btn grey" id="test-account-btn">Get a test account</a>
-            <a class="btn red" id="login-btn">Login</a>
+            <a class="btn blue" id="register-btn">Register</a>
         </span>
         <p><a class="blue-text link button left" id="toggle-password">Toggle Password</a></p>&nbsp;
     </div>

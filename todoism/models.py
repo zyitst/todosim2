@@ -8,6 +8,7 @@ from todoism.extensions import db
 
 class User(db.Model, UserMixin):
     uid =db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(254), unique=True, index=True)
     name=db.Column(db.String(20))
     password_hash=db.Column(db.String(128))
     todos = db.relationship('Item', back_populates='author', cascade='all')

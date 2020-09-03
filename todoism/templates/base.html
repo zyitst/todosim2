@@ -16,6 +16,7 @@
                 </li>
             {% else %}
                 <li><a class="waves-effect waves-light btn red" href="#login">Login</a></li>
+                <li><a class="waves-effect waves-light btn red" href="#register">Register</a></li>
             {% endif %}
         </ul>
     </div>
@@ -25,12 +26,13 @@
     {% if current_user.is_authenticated %}
         <li><a class="waves-effect waves-light btn red clear-btn sidenav-close">Clear</a></li>
         <li><a class="waves-effect waves-light btn orange sidenav-close" id="app-btn"
-               href="#app">{{ current_user.username }}</a>
+               href="#app">{{ current_user.name }}</a>
         </li>
         <li><a class="waves-effect waves-light btn grey sidenav-close" id="logout-btn"
                data-href="{{ url_for('auth.logout') }}">Logout</a></li>
     {% else %}
         <li><a class="waves-effect waves-light btn red sidenav-close" href="#login">Login</a></li>
+        <li><a class="waves-effect waves-light btn red sidenav-close" href="#register">Register</a></li>
     {% endif %}
 </ul>
 

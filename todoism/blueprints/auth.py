@@ -10,8 +10,8 @@ auth_bp = Blueprint('auth', __name__)
 faker = Faker()
 
 
-@auth_bp.route('/register')
-def register():
+@auth_bp.route('/get_test_account')
+def get_test_account():
     username = faker.user_name()
     while User.query.filter_by(name=username).first() is not None:
         username = faker.user_name()
@@ -43,16 +43,37 @@ def register():
     return jsonify(username=username, password=password, message='假账号生成成功')
 
 
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('todo.app'))
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data['email']
+        username = data['username']
+        password = data['password']
+        if User.query.filter_by(email=email.lower()).first():
+            return jsonify(message='该邮箱已注册！')
+        user = User(name=username, email=email.lower())
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(message='注册成功，请验证邮箱然后登录')
+    return render_template('_register.html')
+
+
+
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('todo.app'))
     if request.method == 'POST':
         data = request.get_json()
-        username = data['username']
+        email = data['email']
         password = data['password']
 
-        user = User.query.filter_by(name=username).first()
+        user = User.query.filter_by(email=email).first()
         if user and user.valid_password(password):
             login_user(user)
             return jsonify(message='登陆成功')
@@ -66,4 +87,5 @@ def login():
 @auth_bp.route('/logout')
 @login_required
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('home.index', message='您已登出！'))

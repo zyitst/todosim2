@@ -15,11 +15,13 @@
     var csrf_token = "{{ csrf_token() }}";
     var login_page_url = "{{ url_for('auth.login') }}";
     var login_url = "{{ url_for('auth.login') }}";
-    var register_url = "{{ url_for('auth.register') }}";
+    var register_page_url = "{{ url_for('auth.register') }}";
+    var test_account_url = "{{ url_for('auth.get_test_account') }}";
     var logout_url = "{{ url_for('auth.logout') }}";
     {#var default_error_message = "Oops, something was wrong!";#}
     var default_error_message = "完蛋，出毛病了！";
     var empty_body_error_message = "Your todo was empty!";
+    var register_error_message = "注册信息错误，请检查！";
     var login_error_message = "Empty username or password!";
     var app_page_url = "{{ url_for('todo.app') }}";
     var intro_page_url = "{{ url_for('home.intro') }}";

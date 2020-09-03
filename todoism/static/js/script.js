@@ -38,12 +38,14 @@ $(document).ready(function () {
         // Some browers return the hash symbol, and some don't.
         var hash = window.location.hash.replace('#', '');
         var url = null;
-        if (hash === 'login') {
-            url = login_page_url
+        if (hash == 'register') {
+            url = register_page_url;
+        } else if (hash === 'login') {
+            url = login_page_url;
         } else if (hash === 'app') {
-            url = app_page_url
+            url = app_page_url;
         } else {
-            url = intro_page_url
+            url = intro_page_url;
         }
 
         $.ajax({
@@ -298,10 +300,11 @@ $(document).ready(function () {
             $(this).find('.edit-btns').addClass('hide');
         });
 
-    function register() {
+    // 获取测试账户
+    function get_test_account() {
         $.ajax({
             type: 'GET',
-            url: register_url,
+            url: test_account_url,
             success: function (data) {
                 $('#username-input').val(data.username);
                 $('#password-input').val(data.password);
@@ -310,18 +313,52 @@ $(document).ready(function () {
         });
     }
 
+    $(document).on('click', '#test-account-btn', get_test_account);
+
+    function register() {
+        var email = $('#email-input').val();
+        var username = $('#username-input').val();
+        var password = $('#password-input').val();
+        var password2 = $('#password-input2').val();
+
+        if (!email || !username || !password || !password2){
+            M.toast({html: register_error_message});
+            return;
+        }
+        if (password != password2) {
+            M.toast({html: '两次密码不一致，请检查！'});
+            return;
+        }
+        var data = {
+            'email': email,
+            'username': username,
+            'password': password
+        };
+        $.ajax({
+            type: 'POST',
+            url: register_page_url,
+            data: JSON.stringify(data),
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                window.location.hash = '#login';
+                activeM();
+                M.toast({html: data.message});
+            }
+        })
+    }
+
     $(document).on('click', '#register-btn', register);
 
     function login_user() {
-        var username = $('#username-input').val();
+        var email = $('#email-input').val();
         var password = $('#password-input').val();
-        if (!username || !password){
+        if (!email || !password){
             M.toast({html: login_error_message});
             return;
         }
 
         var data = {
-            'username': username,
+            'email': email,
             'password': password
         };
         $.ajax({
