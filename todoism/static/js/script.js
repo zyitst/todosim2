@@ -306,7 +306,7 @@ $(document).ready(function () {
             type: 'GET',
             url: test_account_url,
             success: function (data) {
-                $('#username-input').val(data.username);
+                $('#email-input').val(data.email);
                 $('#password-input').val(data.password);
                 M.toast({html: data.message});
             }

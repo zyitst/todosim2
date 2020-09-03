@@ -1,3 +1,5 @@
+import random
+
 from faker import Faker
 from flask import render_template, jsonify, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
@@ -12,20 +14,25 @@ faker = Faker()
 
 @auth_bp.route('/get_test_account')
 def get_test_account():
-    username = faker.user_name()
-    while User.query.filter_by(name=username).first() is not None:
-        username = faker.user_name()
+    email = faker.email()
+    while User.query.filter_by(name=email).first() is not None:
+        email = faker.email()
+    fake_name = faker.user_name()
     password = faker.word()
-    user=User(name=username)
+    user=User(name=fake_name, email=email)
     user.set_password(password)
 
     db.session.add(user)
 
     todo_contents = [
+        'Witness something truly majestic',
+        'Help a complete stranger',
+        'Drive a motorcycle on the Great Wall of China',
+        'Sit on the Great Egyptian Pyramids',
         '买个苹果AirPods Pro',
         '换台新的5G手机（华为 or 小米 or OV or 一加）',
         '找个好工作',
-        '找个女朋友',
+        # '找个女朋友',
         '注册功能完善（电子邮件，验证。。。）',
         '优先级？？设置，修改。。。默认优先级',
         '拖拽调整顺序。。',
@@ -35,12 +42,14 @@ def get_test_account():
     ]
     items = []
     for i, content in enumerate(todo_contents):
-        item = Item(content=content, author=user, priority=(i // 4 + 1) % 3)
+        item = Item(content=content, author=user, priority=random.randrange(1,4,1))
+        if i == 3 or i == 10 or i == 11:
+            item.done = True
         items.append(item)
 
     db.session.add_all(items)
     db.session.commit()
-    return jsonify(username=username, password=password, message='假账号生成成功')
+    return jsonify(email=email, password=password, message='假账号生成成功')
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
