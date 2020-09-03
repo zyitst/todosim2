@@ -26,8 +26,8 @@
     var app_page_url = "{{ url_for('todo.app') }}";
     var intro_page_url = "{{ url_for('home.intro') }}";
 </script>
-{#    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>#}
-    {{ moment.include_jquery() }}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+{#    {{ moment.include_jquery() }}#}
     {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
     {{ moment.locale(auto_detect=True) }}
     <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
