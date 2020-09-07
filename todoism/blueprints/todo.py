@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import render_template, jsonify, request
 from flask.blueprints import Blueprint
 from flask_login import current_user, login_required
@@ -13,7 +15,7 @@ todo_bp = Blueprint('todo', __name__)
 @login_required
 def app():
     all_count = Item.query.with_parent(current_user).count()
-    completed_count = Item.query.filter_by(done=True).count()
+    completed_count = Item.query.with_parent(current_user).filter_by(done=True).count()
     active_count = all_count - completed_count
     return render_template('_app.html', all_count=all_count, active_count=active_count, completed_count=completed_count,
                            items=current_user.todos)
@@ -62,9 +64,28 @@ def toggle_item(item_id):
     if item.author != current_user:
         return jsonify(message='你不是本事项的主人，无法操作本事项！')
     item.done = not item.done
+    if item.done:
+        item.done_time = datetime.utcnow()
+        msg = '恭喜，已完成'
+    else:
+        item.done_time = None
+        msg = '恢复，未完成'
     db.session.commit()
-    msg = '恭喜，已完成' if item.done else '恢复，未完成'
     return jsonify(message=msg)
+
+
+@todo_bp.route('/item/<int:item_id>/change_priority', methods=['PATCH'])
+@login_required
+def change_priority(item_id):
+    item = Item.query.get_or_404(item_id)
+    if item.author != current_user:
+        return jsonify(message='你不是本事项的主人，无法操作本事项！')
+    data = request.get_json()
+    if data is None or data['priority'] not in [1, 2, 3]:
+        return jsonify(message='优先级非法'), 400
+    item.priority = int(data['priority'])
+    db.session.commit()
+    return jsonify(message='优先级修改成功！')
 
 
 @todo_bp.route('/items/clear', methods=['DELETE'])

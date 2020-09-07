@@ -103,10 +103,21 @@ footer {
     text-decoration: line-through;
 }
 
-.create-time {
+.timeshit {
     display: block;
-    width: 70px;
+    width: auto;
     margin-left: 39px;
+}
+
+.create-time {
+    display: inline-block;
+    width: auto;
+}
+
+.done-time {
+    margin-left: 10px;
+    display: inline-block;
+    width: auto;
 }
 
 .edit-btns {
@@ -115,26 +126,6 @@ footer {
 /*.create-time>span {*/
 /*    display: inline-block;*/
 /*}*/
-
-.priority-1 {
-    color: #4dd95a;
-}
-
-.priority-2 {
-    color: #d9d52c;
-}
-
-.priority-3 {
-    color: #e9bc28;
-}
-
-.priority-4 {
-    color: #907fd9;
-}
-
-.priority-5 {
-    color: #d95965;
-}
 
 .label {
     display: inline;
@@ -153,14 +144,37 @@ footer {
     background-color: #5cb85c;
 }
 
+.label-normal::after {
+    content: '普通';
+}
+
 .label-important {
     background-color: #f0ad4e;
+}
+
+.label-important::after {
+    content: '重要';
 }
 
 .label-emergency {
     background-color: #d9534f;
 }
 
+.label-emergency::after {
+    content: '紧急';
+}
+
 .round {
     border-radius: 1020px;
+}
+
+.dropdown-content {
+    width: auto;
+    display: block;
+}
+
+.dropdown-content a {
+    display: inline-block;
+    margin: .2em;
+
 }

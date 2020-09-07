@@ -1,29 +1,32 @@
 <div class="row item card-panel hoverable" data-href="{{ url_for('.edit_item', item_id=item.id) }}"
-     data-id="{{ item.id }}" data-body="{{ item.body }}" data-done={{ item.done|tojson }}>
+     data-id="{{ item.id }}" data-body="{{ item.body }}" data-done={{ item.done|tojson }} data-priority="{{ item.priority }}">
     <span class="item-body">
         <a class="button done-btn" data-href="{{ url_for('.toggle_item', item_id=item.id) }}">
             <i class="material-icons left">{% if item.done %}check_box{% else %}check_box_outline_blank{% endif %}</i>
         </a>
-        <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}" id="body{{ item.id }}">
-            {{ item.content }}
-        </span>
-        <span class="label {% if item.priority == 1 %}
-                                label-normal
-                           {% elif item.priority == 2 %}
-                                label-important
-                           {% else %}
-                                label-emergency
-                           {% endif %}
-                           round">
-            {% if item.priority == 1 %}普通{% endif %}
-            {% if item.priority == 2 %}重要{% endif %}
-            {% if item.priority == 3 %}紧急{% endif %}
-        </span>
-        <small class="create-time tooltipped" data-position="bottom"
-               data-timestamp="{{ item.create_time.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
-{#            {{ moment(item.create_time).format('YYYY MMMM Do, h:mm:ss a') }}#}
-            {{ moment(item.create_time).fromNow(refresh=True) }}
-        </small>
+        <span class="{% if item.done %}inactive-item{% else %}active-item{% endif %}"
+              id="body{{ item.id }}">{{ item.content }}</span>
+        <a title="点击以修改优先级" class="dropdown-trigger label {% if item.priority == 1 %}label-normal{% elif item.priority == 2 %}label-important{% else %}label-emergency{% endif %} round"
+             data-target="priority-dropdown-{{ item.id }}"></a>
+        <div id='priority-dropdown-{{ item.id }}' class='dropdown-content' data-href="{{ url_for('.change_priority', item_id=item.id) }}">
+            <a class="label label-normal round" data-priority="1"></a>
+            <a class="label label-important round" data-priority="2"></a>
+            <a class="label label-emergency round" data-priority="3"></a>
+        </div>
+        <div class="timeshit">
+            <small class="create-time tooltipped" data-position="bottom"
+                   data-timestamp="{{ item.create_time.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
+    {#            {{ moment(item.create_time).format('YYYY MMMM Do, h:mm:ss a') }}#}
+                创建于{{ moment(item.create_time).fromNow(refresh=True) }}
+            </small>
+            {% if item.done_time %}
+                <small class="done-time tooltipped" data-position="bottom"
+                       data-timestamp="{{ item.done_time.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
+        {#            {{ moment(item.create_time).format('YYYY MMMM Do, h:mm:ss a') }}#}
+                    完成于{{ moment(item.done_time).fromNow(refresh=True) }}
+                </small>
+            {% endif %}
+        </div>
     </span>
     <span class="hide edit-btns right">
         <a class="right button delete-btn" data-href="{{ url_for('.delete_item', item_id=item.id) }}">

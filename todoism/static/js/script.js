@@ -91,7 +91,7 @@ $(document).ready(function () {
         $('.modal').modal();
         $('.tooltipped').each(function(){
             $this = $(this);
-            $this.attr('data-tooltip', '创建于 ' + moment($(this).data('timestamp')).format('YYYYMMMMDo，ah：mm：ss'));
+            $this.attr('data-tooltip', moment($(this).data('timestamp')).format('YYYYMMMMDo，ah：mm：ss'));
         });
         $('.tooltipped').tooltip();
         $('.dropdown-trigger').dropdown({
@@ -236,6 +236,7 @@ $(document).ready(function () {
                     $this.next().addClass('active-item');
                     $this.find('i').text('check_box_outline_blank');
                     $item.data('done', false);
+                    $item.find('.done-time').remove();
                     M.toast({html: data.message});
                     refresh_count();
                 }
@@ -249,11 +250,44 @@ $(document).ready(function () {
                     $this.next().addClass('inactive-item');
                     $this.find('i').text('check_box');
                     $item.data('done', true);
+                    $item.find('.create-time').after('\
+                        <small class="done-time tooltipped" data-position="bottom">\
+                            完成于' + moment().fromNow(refresh=true) + '前\
+                        </small>\
+                    ');
+                    activeM();
                     M.toast({html: data.message});
                     refresh_count();
                 }
             })
         }
+    });
+
+    $(document).on('click', '.dropdown-content a', function () {
+        $this = $(this);
+        $item = $this.parent().parent().parent();
+        var oldPriority = $item.data('priority');
+        var newPriority = $this.data('priority');
+        const priorityClass = ['label-normal', 'label-important', 'label-emergency'];
+        if (oldPriority == newPriority) {
+            M.toast({html: '无需修改！'});
+            return;
+        }
+        var data = {
+            'priority': newPriority
+        }
+        $.ajax({
+            type: 'PATCH',
+            data: JSON.stringify(data),
+            contentType: 'application/json;charset=UTF-8',
+            url: $this.parent().data('href'),
+            success: function (data) {
+                M.toast({html: '修改成功！'});
+                activeM();
+                $item.data('priority', newPriority);
+                $item.find('.dropdown-trigger').removeClass(priorityClass[oldPriority - 1]).addClass(priorityClass[newPriority - 1]);
+            }
+        });
     });
 
     $(document).on('click', '.delete-btn', function () {

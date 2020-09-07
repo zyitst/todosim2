@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 
 from faker import Faker
 from flask import render_template, jsonify, redirect, url_for, request
@@ -45,6 +46,7 @@ def get_test_account():
         item = Item(content=content, author=user, priority=random.randrange(1,4,1))
         if i == 3 or i == 10 or i == 11:
             item.done = True
+            item.done_time = datetime.utcnow()
         items.append(item)
 
     db.session.add_all(items)
