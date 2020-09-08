@@ -374,6 +374,11 @@ $(document).ready(function () {
             data: JSON.stringify(data),
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
+                if (data.code == 'e101') {
+                    $('#email-input').removeClass('valid').addClass('invalid');
+                    M.toast({html: data.message});
+                    return;
+                }
                 window.location.hash = '#login';
                 activeM();
                 M.toast({html: data.message});

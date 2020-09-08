@@ -7,10 +7,11 @@ from todoism.extensions import db
 
 
 class User(db.Model, UserMixin):
-    uid =db.Column(db.Integer, primary_key=True)
+    id =db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(254), unique=True, index=True)
     name=db.Column(db.String(20))
     password_hash=db.Column(db.String(128))
+    confirmed = db.Column(db.Boolean, default=False)
     todos = db.relationship('Item', back_populates='author', cascade='all')
 
     def set_password(self, password):
@@ -20,7 +21,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def get_id(self):
-        return self.uid
+        return self.id
 
 
 class Item(db.Model):
@@ -30,5 +31,5 @@ class Item(db.Model):
     priority = db.Column(db.Integer, default=1)
     done=db.Column(db.Boolean, default=False)
     done_time = db.Column(db.DateTime)
-    author_id = db.Column(db.Integer, db.ForeignKey('user.uid'))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     author = db.relationship('User', back_populates='todos')

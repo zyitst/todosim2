@@ -6,7 +6,7 @@ from flask_login import current_user
 
 from todoism.blueprints.home import home_bp
 from todoism.blueprints.todo import todo_bp
-from todoism.extensions import db, login_manager, csrf, moment
+from todoism.extensions import db, login_manager, csrf, moment, mail
 from todoism.blueprints.auth import auth_bp
 from todoism import settings
 from todoism.models import Item
@@ -30,6 +30,7 @@ def register_extensions(app):
     login_manager.init_app(app)
     csrf.init_app(app)
     moment.init_app(app)
+    mail.init_app(app)
 
 
 def register_blueprints(app):
